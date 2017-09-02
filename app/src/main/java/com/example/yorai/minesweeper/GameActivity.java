@@ -1,5 +1,6 @@
 package com.example.yorai.minesweeper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
@@ -19,6 +20,7 @@ public class GameActivity extends Activity {
     private TextView timerView, numberOfFlagsView;
     private Timer timer;
     private int timerCount = 0 ;
+    private int correctFlags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class GameActivity extends Activity {
                 ((MineField) gridView.getAdapter()).notifyDataSetChanged();
 
                 if (newGame.getIsWon() || newGame.getIsLost()) {
-                    //endGame();
+                    endGame();
                 }
             }
         });
@@ -56,8 +58,12 @@ public class GameActivity extends Activity {
                 field.getItem(i).setFlag();
                 if(field.getItem(i).isFlagged()){
                     newGame.getMineField().addFlag();
+                    if (field.getItem(i).isMine())
+                        correctFlags++;
                 } else{
                     newGame.getMineField().removeFlag();
+                    if (field.getItem(i).isMine())
+                        correctFlags--;
                 }
                 ((MineField) gridView.getAdapter()).notifyDataSetChanged();
                 return true;
@@ -91,6 +97,16 @@ public class GameActivity extends Activity {
                 });
             }
         }, 0, 1000);
+    }
+
+    private void endGame(){
+        timer.cancel();
+        Intent easyIntent = new Intent(GameActivity.this, ScoreActivity.class);
+        easyIntent.putExtra("MINES",newGame.getMineField().getNumOfMines());
+        easyIntent.putExtra("CORRECT_MINES",correctFlags);
+        easyIntent.putExtra("TIMER",timerCount);
+        startActivity(easyIntent);
+        this.finish();
     }
 
 }
