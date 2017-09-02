@@ -41,7 +41,7 @@ public class Game {
             }
             else if (cell.isMine()) {
                 lostGame = true;
-                field.checkCell(x,y);
+                field.clickCell(x,y);
                 return;
             } else {
                 recursiveFlush(x,y);
@@ -57,8 +57,8 @@ public class Game {
         if (cell.isMine() || cell.isClicked() || cell.isFlagged()) {
             return;
         }
-        field.checkCell(x,y);
-        if (cell.getNumNerbyMine() > 0) {
+        field.clickCell(x,y);
+        if (cell.getNumNerbyMines() > 0) {
             return;
         }
         for (int i=x-1;i<=x+1; i++){

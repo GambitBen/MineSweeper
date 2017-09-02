@@ -1,6 +1,7 @@
 package com.example.yorai.minesweeper.GameLogic;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -30,14 +31,21 @@ public class MineField extends BaseAdapter {
             }
         }
         unpressed = width * height;
-        GenerateMines();
+        GenerateMines(); String minefields="";
+        for (int i=0;i<field.length; i++){
+            for (int j=0; j<field[i].length; j++){
+                minefields+=""+field[i][j].getNumNerbyMines()+" ";
+            }
+            minefields+="\n";
+        }
+        Log.i("minefields", minefields);
     }
 
     public int getHeight() {
         return height;
     }
 
-    void checkCell(int x, int y) {
+    void clickCell(int x, int y) {
         field[x][y].click();
         unpressed--;
     }
@@ -88,7 +96,8 @@ public class MineField extends BaseAdapter {
                 for (int j=y-1; j<=y+1; j++){
                     if (j>=0 && j<field[i].length)
                         if (j!=y && i!=x)
-                            field[i][j].setNumNerbyMine(field[i][j].getNumNerbyMine()+1);
+                            if (!field[i][j].isMine())
+                                field[i][j].setNumNerbyMine(field[i][j].getNumNerbyMines()+1);
                 }
         }
     }
