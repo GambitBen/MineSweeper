@@ -23,6 +23,10 @@ public class Cell extends android.support.v7.widget.AppCompatImageView {
         return isMine;
     }
 
+    public void setMine(boolean mine) {
+        isMine = mine;
+    }
+
     public int getNumNerbyMines() {
         return numNerbyMine;
     }

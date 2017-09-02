@@ -30,10 +30,8 @@ public class Game {
     public void clickCell(int position) {
         if(lostGame || wonGame)
             return;
-        int x = position % field.getWidth() - 1;
-        if (x==-1)
-            x=field.getWidth()-1;
-        int y = position / field.getWidth();
+        int y = position % field.getWidth();
+        int x = position / field.getWidth();
         Cell cell = field.getCell(x,y);
         if (!cell.isClicked()) {
             if(cell.isFlagged()){
@@ -65,8 +63,7 @@ public class Game {
             if (i>=0 && i<field.getWidth())
                 for (int j=y-1; j<=y+1; j++){
                     if (j>=0 && j<field.getHeight())
-                        if (j!=y && i!=x)
-                            recursiveFlush(i, j);
+                        recursiveFlush(i, j);
                 }
         }
     }

@@ -50,9 +50,8 @@ public class GameActivity extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 MineField field = newGame.getMineField();
-
-                numberOfFlags();//showing the number of flags
-                timerStart();//starting the timer
+                if (field.getItem(i).isClicked())
+                    return false;
 
                 field.getItem(i).setFlag();
                 if(field.getItem(i).isFlagged()){
@@ -64,6 +63,8 @@ public class GameActivity extends Activity {
                 return true;
             }
         });
+        numberOfFlags();//showing the number of flags
+        timerStart();//starting the timer
     }
 
     private void numberOfFlags() {

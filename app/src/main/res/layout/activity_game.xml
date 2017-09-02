@@ -8,36 +8,29 @@
     android:gravity="end">
 
     <GridView
-        android:layout_width="wrap_content"
-        android:layout_height="409dp"
         android:id = "@+id/gridview"
-        android:columnWidth="90dp"
-        android:numColumns="3"
-        android:verticalSpacing="1dp"
-        android:horizontalSpacing="1dp"
-        android:stretchMode="columnWidth"
-        android:outlineProvider="bounds"
+        android:layout_width="match_parent"
+        android:layout_height="410dp"
         android:gravity="center"
         android:paddingTop="20dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Timer"
-        android:textSize="20dp"
-        android:layout_weight="0.14"
-        android:layout_marginEnd="10dp"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:textSize="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/flagsNumber"
-        android:layout_weight="0.14"
-        android:layout_marginStart="34dp"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="70dp"
         android:layout_alignParentStart="true" />
 
+    <TextView
+        android:id="@+id/Timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginTop="70dp"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

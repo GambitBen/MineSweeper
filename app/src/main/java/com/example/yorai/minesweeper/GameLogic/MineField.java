@@ -85,7 +85,7 @@ public class MineField extends BaseAdapter {
                 i = (int) (Math.random() * height);
                 j = (int) (Math.random() * width);
             }while(field[i][j].isMine());
-            field[i][j]=new Cell(context);
+            field[i][j].setMine(true);
             UpdateNerbyCells(i,j);
         }
     }
@@ -95,9 +95,8 @@ public class MineField extends BaseAdapter {
             if (i>=0 && i<field.length)
                 for (int j=y-1; j<=y+1; j++){
                     if (j>=0 && j<field[i].length)
-                        if (j!=y && i!=x)
-                            if (!field[i][j].isMine())
-                                field[i][j].setNumNerbyMine(field[i][j].getNumNerbyMines()+1);
+                        if (!field[i][j].isMine())
+                            field[i][j].setNumNerbyMine(field[i][j].getNumNerbyMines()+1);
                 }
         }
     }
@@ -109,10 +108,8 @@ public class MineField extends BaseAdapter {
 
     @Override
     public Cell getItem(int position) {
-        int x = position % field.length - 1;
-        if (x==-1)
-            x=field.length-1;
-        int y = position / field.length;
+        int y = position % field.length;
+        int x = position / field.length;
         return field[x][y];
     }
 
