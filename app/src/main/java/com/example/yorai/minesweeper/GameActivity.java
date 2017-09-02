@@ -50,7 +50,7 @@ public class GameActivity extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 MineField field = newGame.getMineField();
-                if (field.getItem(i).isClicked())
+                if (field.getItem(i).isClicked() || newGame.getIsWon() || newGame.getIsLost())
                     return false;
 
                 field.getItem(i).setFlag();
@@ -68,7 +68,7 @@ public class GameActivity extends Activity {
     }
 
     private void numberOfFlags() {
-        int i = newGame.getMineField().getNumOfMines()- newGame.getMineField().getNumOfFlags();
+        int i = newGame.getMineField().getNumOfMines() - newGame.getMineField().getNumOfFlags();
         numberOfFlagsView = findViewById(R.id.flagsNumber);
         numberOfFlagsView.setText(""+i);
     }
@@ -78,18 +78,19 @@ public class GameActivity extends Activity {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                /*runOnUiThread(new Runnable()
+                runOnUiThread(new Runnable()
                 {
                     @Override
                     public void run()
-                    {*/
+                    {
                         timerView = findViewById(R.id.Timer);
                         timerView.setText(String.format("%02d:%02d", timerCount / 60, timerCount % 60));
+                        numberOfFlags();
                         timerCount++;
-                    //}
-                //});
+                    }
+                });
             }
-        }, 1000, 1000);
+        }, 0, 1000);
     }
 
 }
