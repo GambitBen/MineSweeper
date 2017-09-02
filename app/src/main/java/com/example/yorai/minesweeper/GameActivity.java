@@ -78,16 +78,16 @@ public class GameActivity extends Activity {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable()
+                /*runOnUiThread(new Runnable()
                 {
                     @Override
                     public void run()
-                    {
+                    {*/
                         timerView = findViewById(R.id.Timer);
                         timerView.setText(String.format("%02d:%02d", timerCount / 60, timerCount % 60));
                         timerCount++;
-                    }
-                });
+                    //}
+                //});
             }
         }, 1000, 1000);
     }
