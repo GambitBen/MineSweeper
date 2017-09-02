@@ -76,4 +76,11 @@ public class Cell extends android.support.v7.widget.AppCompatImageView {
             setImageResource(R.drawable.button);
         }
     }
+
+    public void revealMine(){
+        if (isMine && !isFlagged)
+            setImageResource(R.drawable.bomb_normal);
+        else if (!isMine && isFlagged)
+            setImageResource(R.drawable.bomb_wrong);
+    }
 }

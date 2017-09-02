@@ -9,12 +9,13 @@
 
     <GridView
         android:id = "@+id/gridview"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="410dp"
         android:gravity="center"
         android:paddingTop="20dp"
+        android:columnWidth="10dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/flagsNumber"

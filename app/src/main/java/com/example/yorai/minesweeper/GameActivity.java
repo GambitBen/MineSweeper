@@ -3,6 +3,8 @@ package com.example.yorai.minesweeper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -11,14 +13,10 @@ import android.widget.TextView;
 import com.example.yorai.minesweeper.GameLogic.Game;
 import com.example.yorai.minesweeper.GameLogic.MineField;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class GameActivity extends Activity {
     private GridView gridView;
     private Game newGame;
     private TextView timerView, numberOfFlagsView;
-    private Timer timer;
     private int timerCount = 0 ;
     private int correctFlags;
 
@@ -66,11 +64,10 @@ public class GameActivity extends Activity {
                         correctFlags--;
                 }
                 ((MineField) gridView.getAdapter()).notifyDataSetChanged();
+                numberOfFlags();
                 return true;
             }
         });
-        numberOfFlags();//showing the number of flags
-        timerStart();//starting the timer
     }
 
     private void numberOfFlags() {
@@ -80,31 +77,42 @@ public class GameActivity extends Activity {
     }
 
     private void timerStart() {
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        timerView = findViewById(R.id.Timer);
+        final Handler handler = new Handler() {
+            public void handleMessage(Message msg) {
+                timerView.setText(String.format("%02d:%02d", timerCount / 60, timerCount % 60));
+            }
+        };
+        new Thread(new Runnable() {
+
             @Override
             public void run() {
-                runOnUiThread(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        timerView = findViewById(R.id.Timer);
-                        timerView.setText(String.format("%02d:%02d", timerCount / 60, timerCount % 60));
-                        numberOfFlags();
-                        timerCount++;
+                while (true) {
+                    timerCount++;
+                    handler.sendEmptyMessage(0);
+                    try {
+                        Thread.sleep(1000);
                     }
-                });
+                    catch (InterruptedException exception) {
+                        exception.printStackTrace();
+                    }
+                }
             }
-        }, 0, 1000);
+        }).start();
     }
 
     private void endGame(){
-        timer.cancel();
+        newGame.getMineField().revealMines();
         Intent easyIntent = new Intent(GameActivity.this, ScoreActivity.class);
         easyIntent.putExtra("MINES",newGame.getMineField().getNumOfMines());
         easyIntent.putExtra("CORRECT_MINES",correctFlags);
         easyIntent.putExtra("TIMER",timerCount);
+        try {
+            Thread.sleep(3000);
+        }
+        catch (InterruptedException exception) {
+            exception.printStackTrace();
+        }
         startActivity(easyIntent);
         this.finish();
     }
