@@ -18,7 +18,6 @@ public class GameActivity extends Activity {
     private Game newGame;
     private TextView timerView, numberOfFlagsView;
     private int timerCount = 0 ;
-    private int correctFlags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +35,8 @@ public class GameActivity extends Activity {
         gridView.setNumColumns(newGame.getMineField().getWidth());
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                newGame.clickCell(position);
+            public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+                newGame.clickCell(i);
 
                 ((MineField) gridView.getAdapter()).notifyDataSetChanged();
 
@@ -49,23 +48,12 @@ public class GameActivity extends Activity {
         gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                MineField field = newGame.getMineField();
-                if (field.getItem(i).isClicked() || newGame.getIsWon() || newGame.getIsLost())
-                    return false;
+                Boolean value = newGame.longClickCell(i);
 
-                field.getItem(i).setFlag();
-                if(field.getItem(i).isFlagged()){
-                    newGame.getMineField().addFlag();
-                    if (field.getItem(i).isMine())
-                        correctFlags++;
-                } else{
-                    newGame.getMineField().removeFlag();
-                    if (field.getItem(i).isMine())
-                        correctFlags--;
-                }
                 ((MineField) gridView.getAdapter()).notifyDataSetChanged();
                 numberOfFlags();
-                return true;
+
+                return value;
             }
         });
     }
@@ -105,7 +93,7 @@ public class GameActivity extends Activity {
         newGame.getMineField().revealMines();
         Intent easyIntent = new Intent(GameActivity.this, ScoreActivity.class);
         easyIntent.putExtra("MINES",newGame.getMineField().getNumOfMines());
-        easyIntent.putExtra("CORRECT_MINES",correctFlags);
+        easyIntent.putExtra("CORRECT_MINES",newGame.getCorrectFlags());
         easyIntent.putExtra("TIMER",timerCount);
         try {
             Thread.sleep(3000);

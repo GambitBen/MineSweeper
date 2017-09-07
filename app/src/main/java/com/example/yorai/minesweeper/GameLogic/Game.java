@@ -10,6 +10,7 @@ public class Game {
     private MineField field;
     private boolean wonGame = false;
     private boolean lostGame = false;
+    private int correctFlags;
 
     public Game(Context context, int width, int height, int mines) {
         field = new MineField(context,width,height,mines);
@@ -25,6 +26,10 @@ public class Game {
 
     public boolean getIsLost() {
         return lostGame;
+    }
+
+    public int getCorrectFlags() {
+        return correctFlags;
     }
 
     public void clickCell(int position) {
@@ -66,5 +71,22 @@ public class Game {
                         recursiveFlush(i, j);
                 }
         }
+    }
+
+    public boolean longClickCell(int position){
+        if (field.getItem(position).isClicked() || wonGame || lostGame)
+            return false;
+
+        field.getItem(position).setFlag();
+        if(field.getItem(position).isFlagged()){
+            field.addFlag();
+            if (field.getItem(position).isMine())
+                correctFlags++;
+        } else{
+            field.removeFlag();
+            if (field.getItem(position).isMine())
+                correctFlags--;
+        }
+        return true;
     }
 }
