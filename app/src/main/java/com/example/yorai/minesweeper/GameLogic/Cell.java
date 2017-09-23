@@ -17,6 +17,12 @@ public class Cell extends android.support.v7.widget.AppCompatImageView {
     public Cell(Context context) {
         super(context);
         setImageResource(R.drawable.button);
+        setScaleType(ScaleType.FIT_CENTER);// why won't this work???
+
+        //had to compromise for these
+        //setScaleX(2);
+        //setScaleY(2);
+        //won't work either...
     }
 
     public boolean isMine() {
@@ -78,9 +84,11 @@ public class Cell extends android.support.v7.widget.AppCompatImageView {
     }
 
     public void revealMine(){
-        if (isMine && !isFlagged)
-            setImageResource(R.drawable.bomb_normal);
-        else if (!isMine && isFlagged)
-            setImageResource(R.drawable.bomb_wrong);
+        if (!isClicked) {
+            if (isMine && !isFlagged)
+                setImageResource(R.drawable.bomb_normal);
+            else if (!isMine && isFlagged)
+                setImageResource(R.drawable.bomb_wrong);
+        }
     }
 }

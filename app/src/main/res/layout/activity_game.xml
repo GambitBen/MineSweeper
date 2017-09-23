@@ -9,13 +9,25 @@
 
     <GridView
         android:id = "@+id/gridview"
-        android:layout_width="200dp"
-        android:layout_height="410dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:gravity="center"
+        android:layout_marginTop="200dp"
+        android:stretchMode="columnWidth"
+
+/>
+  <!--
+  for some reason the height won't stretch
+
+
+
+        android:columnWidth="60dp"
+        android:numColumns="auto_fit"
         android:paddingTop="20dp"
-        android:columnWidth="10dp"
+        android:paddingBottom="20dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+-->
 
     <TextView
         android:id="@+id/flagsNumber"
